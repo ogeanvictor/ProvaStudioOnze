@@ -3,7 +3,7 @@
 const express = require("express");
 const router = express.Router();
 
-const controller = require("../controller/company");
+const controller = require("../controllers/company");
 
 router.post('/', controller.save);
 router.get('/', controller.findAll);
