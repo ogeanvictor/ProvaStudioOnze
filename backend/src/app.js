@@ -7,6 +7,7 @@ const cors = require("cors");
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cors());
 
 const router = express.Router();
 

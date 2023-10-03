@@ -5,7 +5,7 @@ const router = express.Router();
 
 const controller = require("../controllers/company");
 
-router.post('/', controller.save);
+router.post('/', controller.create);
 router.get('/', controller.findAll);
 router.get('/:id', controller.findById);
 router.put('/', controller.update);

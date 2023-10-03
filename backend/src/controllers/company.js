@@ -4,9 +4,9 @@ const HttpStatusCode = require("http-status-codes");
 
 const service = require("../services/company");
 
-exports.save = async (req, res) => {
+exports.create = async (req, res) => {
     try {
-        let company = await service.save(req.body);
+        let company = await service.create(req.body);
         res.status(HttpStatusCode.StatusCodes.OK).send(company);
     } catch (error) {
         res.status(HttpStatusCode.StatusCodes.BAD_REQUEST).send({ "message": error.message });
