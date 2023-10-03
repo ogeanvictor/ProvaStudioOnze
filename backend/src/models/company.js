@@ -7,7 +7,7 @@ Sequelize = db.Sequelize;
 const Company = sequelize.define('company', {
     id: {
         type: Sequelize.UUID,
-        autoIncrement: true,
+        defaultValue: Sequelize.UUIDV4,
         allowNull: false,
         primaryKey: true
     },

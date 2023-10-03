@@ -1,6 +1,6 @@
 'use strict'
 
-const repository = require("../repostories/company");
+const repository = require("../repositories/company");
 
 exports.create = async (company) => {
     try {

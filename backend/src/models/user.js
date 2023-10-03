@@ -6,7 +6,7 @@ Sequelize = db.Sequelize;
 const User = sequelize.define('user', {
     id: {
         type: Sequelize.UUID,
-        autoIncrement: true,
+        defaultValue: Sequelize.UUIDV4,
         allowNull: false,
         primaryKey: true
     },
@@ -20,5 +20,7 @@ const User = sequelize.define('user', {
         allowNull: false,
     }
 });
+
+console.log(User === sequelize.models.User)
 
 module.exports = User;
