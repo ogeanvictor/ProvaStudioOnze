@@ -3,6 +3,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+const HttpStatusCode = require("http-status-codes");
+
+dotenv.config();
 
 (async () => {
     const database = require('./database');
@@ -11,10 +16,7 @@ const cors = require("cors");
 
     try {
         await database.sequelize.authenticate();
-        console.log('Connection has been established successfully.');
-
-        await database.sequelize.sync({ force: true }); // Use force: true para recriar as tabelas
-        console.log('Models synchronized successfully.');
+        console.log('Conexão estabelecida.');
     } catch (error) {
         console.log(error);
     }
@@ -28,9 +30,25 @@ app.use(cors());
 const router = express.Router();
 
 const userRoutes = require("./routes/user");
-const companyRoutes = require("./routes/company");
-
 app.use("/user", userRoutes);
+
+app.use((req, res, next) => {
+    const tokenHeader = req.headers["authorization"];
+
+    if (!tokenHeader) {
+        return res.status(HttpStatusCode.StatusCodes.UNAUTHORIZED).json({ "message": 'Acesso não autorizado!' });
+    }
+
+    try {
+        jwt.verify(tokenHeader, process.env.JWT_SECRET);
+        next();
+    
+    } catch (error) {
+        return res.status(HttpStatusCode.StatusCodes.BAD_REQUEST).send({ "message": error.message });
+    }
+});
+
+const companyRoutes = require("./routes/company");
 app.use("/company", companyRoutes);
 
 module.exports = app;

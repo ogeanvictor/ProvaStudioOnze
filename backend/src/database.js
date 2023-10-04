@@ -1,6 +1,9 @@
 const Sequelize = require('sequelize');
+const dotenv = require('dotenv');
 
-const sequelize = new Sequelize('postgres://asgajdws:o8EKcJoblREF1qXtqLceYK0YY5hXuBil@silly.db.elephantsql.com/asgajdws', { dialect: 'postgres' });
+dotenv.config();
+
+const sequelize = new Sequelize(process.env.DATABASE_URL, { dialect: 'postgres' });
 
 var db = {};
 
