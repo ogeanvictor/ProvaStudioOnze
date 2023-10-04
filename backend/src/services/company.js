@@ -4,37 +4,37 @@ const repository = require("../repositories/company");
 
 exports.create = async (company) => {
     try {
-      let createdCompany = await repository.save(company);
-      return createdCompany;
+        let createdCompany = await repository.create(company);
+        return createdCompany;
     } catch (error) {
-      return error.message;
+        return error.message;
     }
 };
 
 exports.findAll = async () => {
     try {
-      let companys = await repository.findAll();
-      return companys;
+        let companys = await repository.findAll();
+        return companys;
     } catch (error) {
-      return error.message;
+        return error.message;
     }
 };
 
 exports.findById = async (id) => {
     try {
-      let company = await repository.findById(id);
-      return company;
+        let company = await repository.findById(id);
+        return company;
     } catch (error) {
-      return error.message;
+        return error.message;
     }
 };
 
 exports.update = async (company) => {
     try {
-      let updatedCompany = await repository.update(company);
-      return updatedCompany;
+        let updatedCompany = await repository.update(company);
+        return updatedCompany;
     } catch (error) {
-      return error.message;
+        return error.message;
     }
 };
 

@@ -13,7 +13,7 @@ exports.create = async (user) => {
     } catch (error) {
         return error.errors[0].message;
     };
-}
+};
     
 
 exports.findByUsername = async (username) => {

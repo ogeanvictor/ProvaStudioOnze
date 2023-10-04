@@ -24,7 +24,7 @@ exports.findAll = async (req, res) => {
 
 exports.findById = async (req, res) => {
     try {
-        let company = await service.findById(req.params);
+        let company = await service.findById(req.params.id);
         res.status(HttpStatusCode.StatusCodes.OK).send(company);
     } catch (error) {
         res.status(HttpStatusCode.StatusCodes.BAD_REQUEST).send({ "message": error.message });
@@ -42,8 +42,8 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
     try {
-        let company = await service.delete(req.params);
-        res.status(HttpStatusCode.StatusCodes.OK).send(company);
+        await service.delete(req.params.id);
+        res.sendStatus(HttpStatusCode.StatusCodes.OK);
     } catch (error) {
         res.status(HttpStatusCode.StatusCodes.BAD_REQUEST).send({ "message": error.message });
     }
