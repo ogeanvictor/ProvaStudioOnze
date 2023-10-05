@@ -1,5 +1,5 @@
 const config = {
-    baseUrl: 'https://prova-studio-onze-gean-victors-projects.vercel.app/',
+    baseUrl: 'https://prova-studio-onze-2cfdhtheo-gean-victors-projects.vercel.app/',
 };
   
 export default config;
