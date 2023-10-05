@@ -6,7 +6,7 @@
     "node": "18.x"
   },
   "scripts": {
-    "start": "set NODE_ENV=dev && node src/server.js",
+    "start": "set NODE_ENV=dev && node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Gean Victor Duque de Oliveira",
