@@ -138,7 +138,10 @@ function List() {
     <div className='flex flex-col items-center justify-center min-h-screen'>
 
       <div className='flex flex-col items-center w-4/5'>
-
+      {loading ? (
+          <CircularProgress />
+        ) : (
+          <>
         <GridContainer>
           <GridItem xs={12} sm={12} md={12} lg={12} xl={12}>
             <Button
@@ -152,9 +155,7 @@ function List() {
           </GridItem>
         </GridContainer>
 
-        {loading ? (
-          <CircularProgress />
-        ) : (
+        
           <GridContainer>
             <GridItem xs={12} sm={12} md={12} lg={12} xl={12}>
               <div className='mt-4 w-full flex items-center justify-center'>
@@ -180,7 +181,8 @@ function List() {
               </div>
             </GridItem>
           </GridContainer>
-        )}
+          </>
+          )}
       </div>
 
       <Dialog
