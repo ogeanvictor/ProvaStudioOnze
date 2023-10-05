@@ -31,7 +31,8 @@ app.use(bodyParser.text({ limit: '200mb' }));
 const corsOptions = {
     origin: [
         'http://localhost:5173',
-        'https://provastudioonze.netlify.app/'
+        'https://provastudioonze.netlify.app/',
+        "https://prova-studio-onze-2cfdhtheo-gean-victors-projects.vercel.app"
     ],
     credentials: true,
 };
