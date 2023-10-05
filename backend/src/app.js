@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({limit: '200mb', extended: true}))
 app.use(bodyParser.text({ limit: '200mb' }));
 
 const corsOptions = {
-    origin: 'https://provastudioonze.netlify.app',
+    origin: "https://ogeanvictor.github.io/ProvaStudioOnzeFrontend/",
     credentials: true,
 };
 app.use(cors(corsOptions));
