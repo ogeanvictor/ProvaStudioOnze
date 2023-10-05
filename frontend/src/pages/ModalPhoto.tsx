@@ -6,15 +6,15 @@ import { DialogContent, DialogTitle } from "@mui/material";
 // Components
 
 const ModalPhoto = (props: any) => {
-  const [, setBattery] = useState([]);
+  const [, setCompany] = useState([]);
 
   useEffect(() => {
-    setBattery(props.battery);
+    setCompany(props.battery);
   }, []);
 
   return (
     <div>
-      <DialogTitle id="alert-dialog-title">{"Foto Bateria"}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">{"Foto Empresa"}</DialogTitle>
       <DialogContent>
         <img
           src={props.photo}

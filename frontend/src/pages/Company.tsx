@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Material UI
 import { DataGrid, ptBR } from '@mui/x-data-grid';
 import { Avatar, Button, Dialog, Fab, CircularProgress } from '@mui/material';
+import ButtonJoy from '@mui/joy/Button';
+import Box from '@mui/joy/Box';
+import { ModeEdit, DeleteForever } from '@mui/icons-material';
 
 // Components Especiais
 import FormCompany from './FormCompany';
@@ -11,9 +14,16 @@ import ModalPhoto from './ModalPhoto';
 
 import { Company } from '../api/services/Company';
 
+interface CompanyData {
+  name: string,
+  cnpj: string,
+  photo: string
+};
+
 function List() {
+  const navigate = useNavigate();
   const [companys, setCompanys] = useState([]);
-  const [company, setCompany] = useState({
+  const [company, setCompany] = useState<CompanyData>({
     name: "",
     cnpj: "",
     photo: "",
@@ -76,30 +86,29 @@ function List() {
         minWidth: 350,
         renderCell: (params: any) => {
           return (
-            <>
-                <Button
-                    color="primary"
-                    variant="contained"
-                    size="small"
-                    onClick={() => {
-                        handleUpdateCompany(params.row);
-                    }}
-                >
-                    Alterar
-                </Button>
-
-                <Button
-                    color="primary"
-                    variant="contained"
-                    size="small"
-                    onClick={() => {
-                        handleDelete(params.row);
-                    }}
-                >
-                    Deletar
-                </Button>
-            </>
-          );
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <ButtonJoy
+                aria-label="Editar"
+                variant="outlined"
+                color="primary"
+                onClick={() => {
+                  handleUpdateCompany(params.row);
+                }}
+              >
+                <ModeEdit color="primary" />
+              </ButtonJoy>
+              <ButtonJoy
+                aria-label="Excluir"
+                variant="outlined"
+                color="primary"
+                onClick={() => {
+                  handleDelete(params.row);
+                }}
+              >
+                <DeleteForever color="error" />
+              </ButtonJoy>
+            </Box>
+          )
         },
       },
   ];
@@ -112,7 +121,7 @@ function List() {
   }));
 
   function handleUpdateCompany(company: any) {
-    setCompany(company);
+    navigate(`/editCompany/${company.id}`)
   }
 
   const modalPhotoClose = () => {
@@ -136,7 +145,7 @@ function List() {
                 component={Link}
                 to={`/newCompany`}
                 >
-                    NOVA EMPRESA
+                  NOVA EMPRESA
             </Button>
           <div className='mt-4 w-grid'>
             <DataGrid
@@ -169,6 +178,7 @@ function List() {
           photo={company.photo}
           modalPhotoClose={modalPhotoClose}
         />
+
       </Dialog>
     </div>
   );

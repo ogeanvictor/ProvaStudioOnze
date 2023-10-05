@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-
-// Material UI
+import { useState, useEffect } from "react";
 import {
   DialogActions,
   DialogContent,
@@ -8,184 +6,197 @@ import {
   DialogTitle,
   TextField,
   Typography,
-  FormControl,
-  FormLabel,
-  FormGroup,
-  FormControlLabel,
-  Switch,
+  Button,
+  IconButton
 } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
+import { PhotoCamera } from "@mui/icons-material";
 
-// Components
-const FormBaterry = (props: any) => {
-    return (
-        <p>Teste</p>
-    )
-//   const [battery, setBattery] = useState([]);
-//   const [, setOpenForm] = useState(false);
+import {Img} from 'react-image'
 
-//   useEffect(() => {
-//     setBattery(props.battery);
-//   }, []);
+import GridContainer from "../components/GridContainer";
+import GridItem from "../components/GridItem";
+import ImageUpload from "../components/ImageUpload";
 
-//   function handlerDeliveryProperty(property, value) {
-//     setBattery({ ...battery, [property]: value });
-//   }
+import { Company } from "../api/services/Company";
 
-//   const handleSubmmit = (e) => {
-//     e.preventDefault();
-//     BatteryLab.put(battery).then(() => {
-//       setOpenForm(false);
-//     });
-//     console.log(battery);
-//   };
-
-//   function setPhoto(image) {
-//     console.log(image);
-//     if (image) {
-//       let reader = new FileReader();
-//       reader.onloadend = () => {
-//         handlerDeliveryProperty("photo", reader.result);
-//       };
-//       reader.readAsDataURL(image);
-//     } else {
-//       handlerDeliveryProperty("photo", null);
-//     }
-//   }
-
-//   return (
-//     <div>
-//       <DialogTitle id="alert-dialog-title">
-//         {"Cadastra Nova Entrega"}
-//       </DialogTitle>
-//       <DialogContent>
-//         <form onSubmit={handleSubmmit}>
-//           <DialogContentText id="alert-dialog-description">
-//             <GridContainer className={classes.lineOne}>
-//               <GridItem xs={12} sm={4} md={4} lg={4} xl={4}>
-//                 <TextField
-//                   type="date"
-//                   id="lastDateTrade"
-//                   name="lastDateTrade"
-//                   style={{ marginBottom: 20, marginTop: 20 }}
-//                   fullWidth
-//                   label="Data Última Troca"
-//                   required
-//                   InputLabelProps={{
-//                     shrink: true,
-//                   }}
-//                   variant="outlined"
-//                   value={battery.lastDateTrade}
-//                   onChange={(e) =>
-//                     handlerDeliveryProperty("lastDateTrade", e.target.value)
-//                   }
-//                 />
-//               </GridItem>
-//               <GridItem xs={12} sm={4} md={4} lg={4} xl={4}>
-//                 <TextField
-//                   id="brand"
-//                   fullWidth
-//                   InputLabelProps={{
-//                     shrink: true,
-//                   }}
-//                   label="Marca da Bateria"
-//                   style={{ marginBottom: 20, marginTop: 20 }}
-//                   required
-//                   select
-//                   SelectProps={{
-//                     native: true,
-//                   }}
-//                   variant="outlined"
-//                   value={battery.brand}
-//                   onChange={(e) =>
-//                     handlerDeliveryProperty("brand", e.target.value)
-//                   }
-//                 >
-//                   <option value="">Selecione a Marca</option>
-//                   <option value="0">Intelbras</option>
-//                   <option value="1">Moura</option>
-//                 </TextField>
-//               </GridItem>
-//               <GridItem xs={12} sm={4} md={4} lg={4} xl={4}>
-//                 <FormControl>
-//                   <FormLabel
-//                     component="legend"
-//                     style={{ marginTop: 20, marginBottom: -5 }}
-//                   >
-//                     Rota?
-//                   </FormLabel>
-//                   <FormGroup>
-//                     <FormControlLabel
-//                       control={
-//                         <Switch
-//                           checked={battery.route}
-//                           onChange={(e) =>
-//                             handlerDeliveryProperty("route", e.target.checked)
-//                           }
-//                           name="route"
-//                         />
-//                       }
-//                       label="Sim"
-//                     />
-//                   </FormGroup>
-//                 </FormControl>
-//               </GridItem>
-//             </GridContainer>
-//             <GridContainer className={classes.lineThree}>
-//               <GridItem xs={12} sm={12} md={12} lg={12} xl={12}>
-//                 <TextField
-//                   id="observation"
-//                   fullWidth
-//                   label="Descrição"
-//                   required
-//                   variant="outlined"
-//                   value={battery.observation}
-//                   onChange={(e) =>
-//                     handlerDeliveryProperty("observation", e.target.value)
-//                   }
-//                   multiline
-//                   rows={5}
-//                   style={{ marginTop: 20 }}
-//                 />
-//               </GridItem>
-//             </GridContainer>
-//             <GridContainer className={classes.lineThree}>
-//               <GridItem xs={12} sm={12} md={12} lg={12} xl={12}>
-//                 <div className={classes.infoSection}>
-//                   <Typography
-//                     align="left"
-//                     variant="h6"
-//                     style={{ marginTop: 20 }}
-//                   >
-//                     Foto da Bateria
-//                   </Typography>
-//                 </div>
-//               </GridItem>
-//               <GridItem xs={6} sm={4} md={3} lg={3} xl={2}>
-//                 <Image
-//                   style={{ width: "180px", height: "150px" }}
-//                   src={
-//                     battery.photo || require("assets/img/battery2.png").default
-//                   }
-//                 />
-//                 <ImageUpload id="photo" handleImageChange={setPhoto} />
-//               </GridItem>
-//             </GridContainer>
-//           </DialogContentText>
-//           <DialogActions
-//             style={{
-//               display: "flex",
-//               justifyContent: "flex-end",
-//               padding: "0 20px 20px 20px",
-//             }}
-//           >
-//             <Button color="success" round autoFocus type="submit">
-//               Cadastrar
-//             </Button>
-//           </DialogActions>
-//         </form>
-//       </DialogContent>
-//     </div>
-  //);
+interface CompanyData {
+  name: string,
+  cnpj: string,
+  photo: string
 };
 
-export default FormBaterry;
+// Components
+const FormCompany = (props: any) => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  console.log(id)
+  const [company, setCompany] = useState<CompanyData>({
+    name: '',
+    cnpj: '',
+    photo: ''
+  });
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setCompany(props.company);
+  }, []);
+
+  useEffect(() => {
+    if (id) {
+      setLoading(true);
+      Company.get(id).then((data: any) => {
+        setCompany(data);
+        setLoading(false);
+      });
+    };
+  }, [id]);
+
+  function handlerCompanyProperty(property: any, value: any) {
+    setCompany({ ...company, [property]: value });
+  }
+
+  const handleSubmmit = (e: any) => {
+    e.preventDefault();
+
+    const payload = {
+      ...company,
+      cnpj: company.cnpj?.replace(/[^0-9]/g, '')
+    }
+
+    if (id) {
+      Company.put(payload);
+    } else {
+      Company.post(payload);
+    }
+
+    navigate('/company');
+
+  };
+
+  function setPhoto(image: any) {
+    if (image) {
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        console.log(reader.result);
+        handlerCompanyProperty("photo", reader.result);
+      };
+      reader.readAsDataURL(image);
+    } else {
+      handlerCompanyProperty("photo", null);
+    }
+  }
+
+  return (
+    <div>
+      <DialogTitle id="alert-dialog-title">
+        {"Criar nova Empresa"}
+      </DialogTitle>
+      <DialogContent>
+        <form onSubmit={handleSubmmit}>
+          <DialogContentText id="alert-dialog-description">
+            <GridContainer >
+              <GridItem xs={12} sm={12} md={6} lg={6} xl={6}>
+              <TextField
+                id="name"
+                fullWidth
+                placeholder="Nome da Empresa"
+                onChange={(e) => handlerCompanyProperty('name', e.target.value)}
+                inputProps={{ style: { color: 'white'}}}
+                style={{ backgroundColor: '#224957', border: 'none', cursor: 'pointer', boxShadow: 'initial', borderRadius: 6, marginBottom: '32px' }}
+                required
+                value={company?.name}
+                variant="outlined"
+              />
+            </GridItem>
+            <GridItem xs={12} sm={12} md={6} lg={6} xl={6}>
+              <TextField
+                id="cnpj"
+                fullWidth
+                placeholder="CNPJ"
+                onChange={(e) => handlerCompanyProperty('cnpj', e.target.value)}
+                required
+                inputProps={{ style: { color: 'white'}}}
+                style={{ backgroundColor: '#224957', border: 'none', cursor: 'pointer', boxShadow: 'initial', borderRadius: 6, marginBottom: '32px' }}
+                value={company?.cnpj}
+                variant="outlined"
+              />
+            </GridItem>
+            </GridContainer>
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={12} lg={12} xl={12}>
+              {/* <label htmlFor="image-button-input">
+                <input
+                  id="image-button-input"
+                  accept="image/*"
+                  type="file"
+                  //capture="camera"
+                  onChange={(e) => handlerCompanyProperty('photo', e.target.value)}
+                  style={{ display: 'none' }}
+                />
+                  <Typography
+                    align="left"
+                    variant="h6"
+                    style={{ marginTop: 20 }}
+                  >
+                    Foto da Empresa
+                  </Typography>
+                  <IconButton
+                    color="primary"
+                    aria-label="Atualizar imagem"
+                    component="span"
+                  >
+                    <PhotoCamera />
+                  </IconButton>
+              </label> */}
+                <div>
+                  <Typography
+                    align="left"
+                    variant="h6"
+                    style={{ marginTop: 20 }}
+                  >
+                    Foto da Bateria
+                  </Typography>
+                </div>
+              </GridItem>
+              <GridItem xs={6} sm={4} md={3} lg={3} xl={2}>
+                <Img
+                  style={{ width: "180px", height: "150px" }}
+                  src={
+                    company?.photo
+                  }
+                />
+                <ImageUpload handleImageChange={setPhoto} />
+              </GridItem>
+              <GridItem xs={6} sm={4} md={3} lg={3} xl={2}>
+                {/* <Image
+                  style={{ width: "180px", height: "150px" }}
+                  src={
+                    company.photo || require("assets/img/company2.png").default
+                  }
+                />
+                <ImageUpload id="photo" handleImageChange={setPhoto} /> */}
+              </GridItem>
+            </GridContainer>
+          </DialogContentText>
+          <DialogActions
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              padding: "0 20px 20px 20px",
+            }}
+          >
+            <Button 
+              type='submit' 
+              className='w-80 rounded-md h-12 flex items-center justify-center font-medium leading-4 duration-500 cursor-pointer border-none bg-green hover:bg-greenDark hover:text-white'
+            >
+              SALVAR
+            </Button>
+          </DialogActions>
+        </form>
+      </DialogContent>
+    </div>
+  );
+};
+
+export default FormCompany;
