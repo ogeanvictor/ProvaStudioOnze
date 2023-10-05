@@ -1,5 +1,5 @@
 const config = {
-    baseUrl: 'http://localhost:3004/',
+    baseUrl: 'https://prova-studio-onze-gean-victors-projects.vercel.app/',
 };
   
 export default config;
