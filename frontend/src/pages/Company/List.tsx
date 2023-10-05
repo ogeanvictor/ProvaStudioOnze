@@ -8,11 +8,12 @@ import ButtonJoy from '@mui/joy/Button';
 import Box from '@mui/joy/Box';
 import { ModeEdit, DeleteForever } from '@mui/icons-material';
 
-// Components Especiais
-import FormCompany from './FormCompany';
-import ModalPhoto from './ModalPhoto';
+// Components
+import ModalPhoto from '../../components/ModalPhoto';
+import GridItem from '../../components/GridItem';
+import GridContainer from '../../components/GridContainer';
 
-import { Company } from '../api/services/Company';
+import { Company } from '../../api/services/Company';
 
 interface CompanyData {
   name: string,
@@ -51,7 +52,7 @@ function List() {
         headerName: "Foto",
         headerClassName: "super-app-theme--header",
         flex: 1,
-        minWidth: 400,
+        minWidth: 80,
         renderCell: (params: any) => {
           return (
             <Fab
@@ -134,40 +135,53 @@ function List() {
   };
 
   return (
-    <div className='flex items-center justify-center h-screen'>
-      {loading ? (
-        <CircularProgress />
-      ) : (
-        <div className='flex flex-col items-start'>
+    <div className='flex flex-col items-center justify-center min-h-screen'>
+
+      <div className='flex flex-col items-center w-4/5'>
+
+        <GridContainer>
+          <GridItem xs={12} sm={12} md={12} lg={12} xl={12}>
             <Button
-                className='w-80 rounded-md mt-4 h-12 flex items-center justify-center font-medium leading-4 duration-500 cursor-pointer border-none bg-green hover:bg-greenDark hover:text-white'
-                variant="contained"
-                component={Link}
-                to={`/newCompany`}
-                >
-                  NOVA EMPRESA
+              className='w-80 rounded-md mt-4 h-12 flex items-center justify-center font-medium leading-4 duration-500 cursor-pointer border-none bg-green hover:bg-greenDark hover:text-white'
+              variant="contained"
+              component={Link}
+              to={`/newCompany`}
+            >
+              NOVA EMPRESA
             </Button>
-          <div className='mt-4 w-grid'>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              checkboxSelection={true}
-              sx={{
-                "& .MuiDataGrid-columnHeader": {
-                  backgroundColor: "#224957",
-                  color: "#fff",
-                },
-              }}
-              autoHeight
-              pagination
-              localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
-              getRowClassName={(params: any) =>
-                params.indexRelativeToCurrentPage % 2 === 0 ? "even" : ""
-              }
-            />
-          </div>
-        </div>
-      )}
+          </GridItem>
+        </GridContainer>
+
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <GridContainer>
+            <GridItem xs={12} sm={12} md={12} lg={12} xl={12}>
+              <div className='mt-4 w-full flex items-center justify-center'>
+
+                <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  checkboxSelection={true}
+                  sx={{
+                    "& .MuiDataGrid-columnHeader": {
+                      backgroundColor: "#224957",
+                      color: "#fff",
+                    },
+                  }}
+                  autoHeight
+                  pagination
+                  localeText={ptBR.components.MuiDataGrid.defaultProps.localeText}
+                  getRowClassName={(params: any) =>
+                    params.indexRelativeToCurrentPage % 2 === 0 ? "even" : ""
+                  }
+                  className="w-full md:w-4/5 lg:w-3/5 xl:w-2/5 mx-auto"
+                />
+              </div>
+            </GridItem>
+          </GridContainer>
+        )}
+      </div>
 
       <Dialog
         open={isOpen}
@@ -178,7 +192,6 @@ function List() {
           photo={company.photo}
           modalPhotoClose={modalPhotoClose}
         />
-
       </Dialog>
     </div>
   );

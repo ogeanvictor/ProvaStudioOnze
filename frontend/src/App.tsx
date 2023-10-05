@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Login from './pages/Login';
-import Company from './pages/Company';
-import FormCompany from './pages/FormCompany';
+import Company from './pages/Company/List';
+import FormCompany from './pages/Company/Form';
 
 import './App.css'
 

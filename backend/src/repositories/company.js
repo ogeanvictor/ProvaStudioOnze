@@ -4,14 +4,11 @@ const Company = require('../models/company');
 
 exports.create = async (company) => {
     try {
-        console.log(company)
         let createdCompany = await Company.create({
             name: company.name,
             cnpj: company.cnpj,
-            photo: Buffer.from(company.photo, 'base64')
+            photo: company.photo
         });
-
-        console.log(createdCompany)
     
         return createdCompany;
     } catch (error) {

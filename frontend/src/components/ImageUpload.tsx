@@ -1,9 +1,13 @@
-import React, { ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
+
+import axios from 'axios';
+
+//MUI Material
 import { Grid, IconButton } from '@mui/material';
 import { Delete, PhotoCamera } from '@mui/icons-material';
 
 interface ImageUploadProps {
-  handleImageChange: (file: File | null) => void;
+  handleImageChange: (file: string | '') => void;
 }
 
 function ImageUpload({ handleImageChange }: ImageUploadProps) {
@@ -12,7 +16,19 @@ function ImageUpload({ handleImageChange }: ImageUploadProps) {
     if (e.target.files && e.target.files.length > 0) {
         const selectedFile = e.target.files[0];
         console.log('Arquivo selecionado:', selectedFile);
-        handleImageChange(selectedFile);
+        const cloud_name = 'deza2k1q4';
+        const preset_key = 'images_preset';
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        formData.append('upload_preset', preset_key);
+        axios
+          .post(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, formData)
+          .then((response) => {
+            console.log(response)
+            handleImageChange(response.data.secure_url);
+          })
+          .catch((err) => console.log(err));
+          
       } else {
         console.error('Nenhum arquivo de imagem selecionado.');
       }
@@ -43,7 +59,7 @@ function ImageUpload({ handleImageChange }: ImageUploadProps) {
           aria-label="Limpar imagem"
           component="span"
           onClick={() => {
-            handleImageChange(null);
+            handleImageChange('');
           }}
           style={{ color: '#f44336' }}
         >

@@ -24,7 +24,7 @@ const Company = sequelize.define('company', {
     },
 
     photo: {
-        type: Sequelize.BLOB('long'),
+        type: Sequelize.STRING,
     }
 });
 

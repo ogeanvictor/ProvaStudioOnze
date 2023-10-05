@@ -7,18 +7,15 @@ import {
   TextField,
   Typography,
   Button,
-  IconButton
 } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
-import { PhotoCamera } from "@mui/icons-material";
-
 import {Img} from 'react-image'
 
-import GridContainer from "../components/GridContainer";
-import GridItem from "../components/GridItem";
-import ImageUpload from "../components/ImageUpload";
+import GridContainer from "../../components/GridContainer";
+import GridItem from "../../components/GridItem";
+import ImageUpload from "../../components/ImageUpload";
 
-import { Company } from "../api/services/Company";
+import { Company } from "../../api/services/Company";
 
 interface CompanyData {
   name: string,
@@ -26,28 +23,19 @@ interface CompanyData {
   photo: string
 };
 
-// Components
-const FormCompany = (props: any) => {
+const Form = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  console.log(id)
   const [company, setCompany] = useState<CompanyData>({
     name: '',
     cnpj: '',
     photo: ''
   });
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setCompany(props.company);
-  }, []);
 
   useEffect(() => {
     if (id) {
-      setLoading(true);
-      Company.get(id).then((data: any) => {
+      Company.get(id).then((data: CompanyData) => {
         setCompany(data);
-        setLoading(false);
       });
     };
   }, [id]);
@@ -56,7 +44,7 @@ const FormCompany = (props: any) => {
     setCompany({ ...company, [property]: value });
   }
 
-  const handleSubmmit = (e: any) => {
+  function handleSubmmit(e: any) {
     e.preventDefault();
 
     const payload = {
@@ -71,20 +59,10 @@ const FormCompany = (props: any) => {
     }
 
     navigate('/company');
-
   };
 
-  function setPhoto(image: any) {
-    if (image) {
-      let reader = new FileReader();
-      reader.onloadend = () => {
-        console.log(reader.result);
-        handlerCompanyProperty("photo", reader.result);
-      };
-      reader.readAsDataURL(image);
-    } else {
-      handlerCompanyProperty("photo", null);
-    }
+  function setPhoto(image: string) {
+    handlerCompanyProperty("photo", image)
   }
 
   return (
@@ -125,30 +103,6 @@ const FormCompany = (props: any) => {
             </GridContainer>
             <GridContainer>
               <GridItem xs={12} sm={12} md={12} lg={12} xl={12}>
-              {/* <label htmlFor="image-button-input">
-                <input
-                  id="image-button-input"
-                  accept="image/*"
-                  type="file"
-                  //capture="camera"
-                  onChange={(e) => handlerCompanyProperty('photo', e.target.value)}
-                  style={{ display: 'none' }}
-                />
-                  <Typography
-                    align="left"
-                    variant="h6"
-                    style={{ marginTop: 20 }}
-                  >
-                    Foto da Empresa
-                  </Typography>
-                  <IconButton
-                    color="primary"
-                    aria-label="Atualizar imagem"
-                    component="span"
-                  >
-                    <PhotoCamera />
-                  </IconButton>
-              </label> */}
                 <div>
                   <Typography
                     align="left"
@@ -169,13 +123,6 @@ const FormCompany = (props: any) => {
                 <ImageUpload handleImageChange={setPhoto} />
               </GridItem>
               <GridItem xs={6} sm={4} md={3} lg={3} xl={2}>
-                {/* <Image
-                  style={{ width: "180px", height: "150px" }}
-                  src={
-                    company.photo || require("assets/img/company2.png").default
-                  }
-                />
-                <ImageUpload id="photo" handleImageChange={setPhoto} /> */}
               </GridItem>
             </GridContainer>
           </DialogContentText>
@@ -199,4 +146,4 @@ const FormCompany = (props: any) => {
   );
 };
 
-export default FormCompany;
+export default Form;
