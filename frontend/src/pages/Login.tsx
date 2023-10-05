@@ -43,20 +43,18 @@ const Login = () => {
     };
 
     function handleSubmit(event: any) {
-        console.log(event)
         event.preventDefault();
         const payload = {
             username: user.username,
             password: user.password,
         };
 
-        if (user.username && user.password) {
-            User.login(payload).then((logged) => {
-                if (logged) {
-                    navigate('/company');
-                }
-            });
-        };
+        User.login(payload).then((logged) => {
+            if (logged) {
+                navigate('/company');
+            }
+        });
+    
     };
 
     return (

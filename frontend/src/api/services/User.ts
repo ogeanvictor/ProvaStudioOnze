@@ -5,7 +5,6 @@ function login(payload: any) {
     return client
         .post('user/login', payload)
         .then((response) => {
-            console.log(response)
             if (response.data.logged === true) {
                 const { token } = response.data;
                 localStorage.setItem('auth', response.data.logged);
@@ -17,7 +16,8 @@ function login(payload: any) {
                 title: 'Erro ao logar!',
                 text: 'Usuário e senha não conferem',
                 icon: 'error',
-                timer: 2000,
+                timer: 1000,
+                buttons: ['false']
             });
         })
         .catch(() => {
