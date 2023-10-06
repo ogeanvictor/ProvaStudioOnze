@@ -58,7 +58,7 @@ const Form = () => {
       Company.post(payload);
     }
 
-    navigate('/company');
+    navigate('/company', { replace: true });
   };
 
   function setPhoto(image: string) {
