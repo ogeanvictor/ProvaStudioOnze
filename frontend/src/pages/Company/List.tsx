@@ -104,6 +104,7 @@ function List() {
                 color="primary"
                 onClick={() => {
                   handleDelete(params.row);
+                  setLoading(true)
                 }}
               >
                 <DeleteForever color="error" />
@@ -114,7 +115,7 @@ function List() {
       },
   ];
 
-  const rows = companys.map((company: any) => ({
+  const rows = companys?.map((company: any) => ({
     id: company.id,
     name: company.name,
     photo: company.photo,
@@ -131,6 +132,7 @@ function List() {
 
   const handleDelete = (company: any) => {
     Company.remove(company.id);
+    setLoading(false)
     window.location.reload()
   };
 
