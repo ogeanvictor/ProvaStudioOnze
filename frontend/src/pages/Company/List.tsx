@@ -41,7 +41,7 @@ function List() {
 
   useEffect(() => {
     Company.getAll().then((data: any) => {
-      setCompanys((prevCompanys) => [...prevCompanys, ...data]);
+      setCompanys(data);
       setLoading(false);
     });
   }, []);
