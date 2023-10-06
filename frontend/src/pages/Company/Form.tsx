@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import {
   DialogActions,
   DialogContent,
@@ -40,11 +40,11 @@ const Form = () => {
     };
   }, [id]);
 
-  function handlerCompanyProperty(property: any, value: any) {
+  function handlerCompanyProperty(property: keyof CompanyData, value: string) {
     setCompany({ ...company, [property]: value });
   }
 
-  function handleSubmmit(e: any) {
+  function handleSubmmit(e: FormEvent) {
     e.preventDefault();
 
     const payload = {

@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, useEffect } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 //MUI Material
@@ -20,38 +20,18 @@ const Login = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState<UserState>({username: '', password: ''});
 
-    useEffect(() => {
-        if (
-          localStorage.getItem('auth')
-          && localStorage.getItem('webUserId')
-          && localStorage.getItem('token')
-        ) {
-          navigate('/login');
-        }
-      }, []);
+    const handleChange = (e: ChangeEvent<HTMLInputElement>, field: keyof UserState) => {
+        setUser((prevUser) => ({ ...prevUser, [field]: e.target.value }));
+      };
 
-    function handleUsername(e: ChangeEvent<HTMLInputElement>) {
-        setUser({
-            ...user,
-            username: e.target.value
-        });
-    };
-
-    function handlePassword(e: ChangeEvent<HTMLInputElement>) {
-        setUser({
-            ...user,
-            password: e.target.value
-        });
-    };
-
-    function handleSubmit(event: any) {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         const payload = {
             username: user.username,
             password: user.password,
         };
 
-        User.login(payload).then((logged) => {
+        await User.login(payload).then((logged) => {
             if (logged) {
                 navigate('/company');
             }
@@ -69,7 +49,7 @@ const Login = () => {
                     <TextField 
                         fullWidth
                         required
-                        onChange={handleUsername}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, 'username')}
                         placeholder="Insira seu Usuário"
                         inputProps={{ style: { color: 'white'}}}
                         style={{ backgroundColor: '#224957', border: 'none', cursor: 'pointer', boxShadow: 'initial', borderRadius: 6, width: '320px', marginBottom: '32px' }}
@@ -81,7 +61,7 @@ const Login = () => {
                         fullWidth
                         type='password'
                         required
-                        onChange={handlePassword}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, 'password')}
                         placeholder="Insira sua Senha"
                         inputProps={{ style: { color: 'white'}}}
                         style={{ backgroundColor: '#224957', border: 'none', cursor: 'pointer', boxShadow: 'initial', borderRadius: 6, width: '320px', marginBottom: '32px' }}

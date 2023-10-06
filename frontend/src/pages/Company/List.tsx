@@ -21,9 +21,16 @@ interface CompanyData {
   photo: string
 };
 
+interface RowData {
+  id: string;
+  name: string;
+  photo: string;
+  cnpj: string;
+}
+
 function List() {
   const navigate = useNavigate();
-  const [companys, setCompanys] = useState([]);
+  const [companys, setCompanys] = useState<RowData[]>([]);
   const [company, setCompany] = useState<CompanyData>({
     name: "",
     cnpj: "",
@@ -115,7 +122,7 @@ function List() {
       },
   ];
 
-  const rows = companys?.map((company: any) => ({
+  const rows: RowData[] = companys?.map((company: any) => ({
     id: company.id,
     name: company.name,
     photo: company.photo,
@@ -130,10 +137,12 @@ function List() {
     setIsOpen(false);
   };
 
-  const handleDelete = (company: any) => {
-    Company.remove(company.id);
+  const handleDelete = async (company: RowData): Promise<void> => {
+    await Company.remove(company.id);
+    setCompanys((prevCompanies: RowData[]) =>
+      prevCompanies.filter((c) => c.id !== company.id)
+    );
     setLoading(false)
-    window.location.reload()
   };
 
   return (
