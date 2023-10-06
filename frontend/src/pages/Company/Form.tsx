@@ -109,7 +109,7 @@ const Form = () => {
                     variant="h6"
                     style={{ marginTop: 20 }}
                   >
-                    Foto da Bateria
+                    Foto da Empresa
                   </Typography>
                 </div>
               </GridItem>
