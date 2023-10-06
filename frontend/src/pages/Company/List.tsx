@@ -44,6 +44,7 @@ function List() {
     Company.getAll().then((data: any) => {
       setCompanys((prevCompanys) => [...prevCompanys, ...data]);
       setLoading(false);
+      window.location.reload()
     });
   }, [pathname]);
 
