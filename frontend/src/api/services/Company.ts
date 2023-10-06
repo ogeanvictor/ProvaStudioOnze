@@ -1,8 +1,8 @@
 import swal from 'sweetalert';
 import client from "../client";
 
-function getAll() {
-    return client.get('company/')
+const getAll = async () => {
+    return await client.get('company/')
       .then((response) => {
         if (response.status === 200) {
           return response.data;
