@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Material UI
 import { DataGrid, ptBR } from '@mui/x-data-grid';
@@ -29,7 +29,6 @@ interface RowData {
 }
 
 function List() {
-  const { pathname } = useLocation();
   const navigate = useNavigate();
   const [companys, setCompanys] = useState<RowData[]>([]);
   const [company, setCompany] = useState<CompanyData>({
@@ -44,9 +43,8 @@ function List() {
     Company.getAll().then((data: any) => {
       setCompanys((prevCompanys) => [...prevCompanys, ...data]);
       setLoading(false);
-      window.location.reload()
     });
-  }, [pathname]);
+  }, []);
 
   const columns = [
     {
