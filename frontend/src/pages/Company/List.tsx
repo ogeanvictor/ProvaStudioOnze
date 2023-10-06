@@ -41,10 +41,13 @@ function List() {
 
   useEffect(() => {
     Company.getAll().then((data: any) => {
+      console.log('entrou')
       setCompanys((prevCompanys) => [...prevCompanys, ...data]);
       setLoading(false);
     });
   }, []);
+
+  console.log(companys)
 
   const columns = [
     {
